@@ -14,9 +14,6 @@ init();
 // document.querySelector('#current-' + activePlayer).textContent = dice;
 
 const x = document.querySelector('#score-' + activePlayer).textContent;
-console.log(x);
-
-
 
 document.querySelector('.btn-roll').addEventListener('click', function () {
     if (gamePlaying) {
@@ -39,6 +36,7 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
             nextPlayer();
         }
         lastDice = dice;
+        console.log(targetScore);
     }
 });
 
@@ -49,8 +47,18 @@ document.querySelector('.btn-hold').addEventListener('click', function () {
         // 2. Update ui
         document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
 
+        // 
+        var input = document.querySelector('.final-score').value;
+        let winningscore;
+
+        // undefined, 0, null or empty string coerced to false
+        if (input) {
+            winningscore = input;
+        } else {
+            winningscore = 100;
+        }
         // 3. Check to see if player won the game
-        if (scores[activePlayer] >= 100) {
+        if (scores[activePlayer] >= winningscore) {
             // active player won
             document.querySelector('#name-' + activePlayer).textContent = 'WINNER!';
             document.querySelector('.dice').style.display = 'none';
@@ -84,6 +92,7 @@ function init() {
     activePlayer = 0;
     document.querySelector('.dice').style.display = 'none';
     gamePlaying = true;
+    targetScore = 100;
 
     document.getElementById('score-0').textContent = '0';
     document.getElementById('score-1').textContent = '0';
@@ -94,5 +103,5 @@ function init() {
     document.querySelector('.player-0-panel').classList.remove('winner');
     document.querySelector('.player-1-panel').classList.remove('winner');
     document.querySelector('.player-0-panel').classList.add('active');
-    document.querySelector('.player-1-panel').classList.remove('acvive');
+    document.querySelector('.player-1-panel').classList.remove('active');
 }
