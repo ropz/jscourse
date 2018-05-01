@@ -19,10 +19,14 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
     if (gamePlaying) {
         // 1. random umber
         let dice = Math.floor(Math.random() * 6) + 1;
+        let dice1 = Math.floor(Math.random() * 6) + 1;
         // 2. display result
         let diceDOM = document.querySelector('.dice');
+        let dice1DOM = document.querySelector('.dice1');
         diceDOM.style.display = 'block';
+        dice1DOM.style.display = 'block';
         diceDOM.src = 'dice-' + dice + '.png';
+        dice1DOM.src = 'dice-' + dice1 + '.png';
         // if 6 rolled, check with last rolls.
         if (dice === 6 && lastDice === 6) {
             scores[activePlayer] = 0;
@@ -36,7 +40,6 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
             nextPlayer();
         }
         lastDice = dice;
-        console.log(targetScore);
     }
 });
 
@@ -62,6 +65,7 @@ document.querySelector('.btn-hold').addEventListener('click', function () {
             // active player won
             document.querySelector('#name-' + activePlayer).textContent = 'WINNER!';
             document.querySelector('.dice').style.display = 'none';
+            document.querySelector('.dice1').style.display = 'none';
             document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
             document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
             gamePlaying = false;
@@ -81,6 +85,7 @@ function nextPlayer() {
     document.querySelector('.player-1-panel').classList.toggle('active');
 
     document.querySelector('.dice').style.display = 'none';
+    document.querySelector('.dice1').style.display = 'none';
     lastRolls = [0, 0];
 };
 
@@ -91,6 +96,7 @@ function init() {
     roundScore = 0;
     activePlayer = 0;
     document.querySelector('.dice').style.display = 'none';
+    document.querySelector('.dice1').style.display = 'none';
     gamePlaying = true;
     targetScore = 100;
 
