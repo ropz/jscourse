@@ -130,10 +130,31 @@ let UIController = (function () {
         expensesLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
-        expensesPercentageLabel: '.item__percentage'
+        expensesPercentageLabel: '.item__percentage',
+        dateLabel: '.budget__title--month'
+    }
+
+    let nodeListForEach = function (list, callback) {
+        for (let i = 0; i < list.length; i++) {
+            callback(list[i], i);
+        }
     }
 
     return {
+        changeType: function() {
+            // manipulate styles
+            let fields;
+            fields = document.querySelectorAll(
+                DOMstrings.inputType + ',' +
+                DOMstrings.inputDescription + ',' +
+                DOMstrings.inputValue
+            )
+            nodeListForEach(fields, function(cur) {
+                cur.classList.toggle('red-focus');
+            })
+            document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
+            
+        },
         getinput: function () {
             return {
                 type: document.querySelector(DOMstrings.inputType).value, // will be inc or exp
@@ -223,6 +244,14 @@ let UIController = (function () {
             type === 'exp' ? sign = '- ' : sign = '+ ';
             return sign + int + '.' + dec;
         },
+        displayMonth: function() {
+            let now, year, month, months;
+            now = new Date(); // returns date of today
+            year = now.getFullYear();
+            month = now.getMonth();
+            months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            document.querySelector(DOMstrings.dateLabel).textContent = months[month] + ' ' + year;
+        },
         getDOMstrings: function () {
             return DOMstrings;
         }
@@ -244,6 +273,8 @@ let controller = (function (budgetCtrl, UICtrl) {
                 ctrlAddItem();
             }
         });
+
+        document.querySelector(DOM.inputType).addEventListener('change', UIController.changeType);
 
         document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
     }
@@ -311,6 +342,7 @@ let controller = (function (budgetCtrl, UICtrl) {
                 totalExp: 0
             })
             setupEventListeners();
+            UIController.displayMonth();
         }
     }
 
