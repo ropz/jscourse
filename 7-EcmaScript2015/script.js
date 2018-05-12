@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+/*
 // Blocks and iffes
 
 // Variables declared using let and const use block scope
@@ -49,7 +51,7 @@ function calcAge(year) {
 const years = [1990, 1945, 1960, 1991];
 let ages5 = years.map(function (el) {
     return 2016 - el;
-})
+});
 console.log(ages5);
 
 // In ES6, it's easier to write the callback
@@ -62,7 +64,7 @@ console.log(ages6);
 ages6 = years.map((el, index) => { // multiple args, multiple lines of code
     const now = new Date().getFullYear();
     const age = now - el;
-    return `Age element ${index+1}: ${age}.`
+    return `Age element ${index+1}: ${age}.`;
 });
 
 console.log(ages6);
@@ -78,9 +80,9 @@ var box5 = {
         document.querySelector('.green').addEventListener('click', function () { // callback this points to global execution context
             var str = 'This is box number ' + self.position + ' and it is ' + self.color;
             alert(str);
-        })
+        });
     }
-}
+};
 //box5.clickMe();
 
 // ES6
@@ -88,13 +90,13 @@ const box6 = {
     color: 'green',
     position: 1,
     clickMe: function () {
-        document.querySelector('.green').addEventListener('click', () => {
-            // shares this keyword with surrounding
-            var str = 'This is box number ' + this.position + ' and it is ' + this.color;
-            alert(str);
-        })
+      document.querySelector('.green').addEventListener('click', () => {
+        // shares this keyword with surrounding
+        var str = 'This is box number ' + this.position + ' and it is ' + this.color;
+        alert(str);
+      });
     }
-}
+};
 box6.clickMe();
 
 function Person(name) {
@@ -106,7 +108,7 @@ Person.prototype.myFriends5 = function (friends) {
         return this.name + ' is friends with ' + el;
     }.bind(this)); // bind creates a copy of a function and allows you to specify the this variable!
     console.log(arr);
-}
+};
 
 var friends = ['bob', 'jane', 'mark'];
 new Person('John').myFriends5(friends);
@@ -115,7 +117,7 @@ new Person('John').myFriends5(friends);
 Person.prototype.myFriends6 = function (friends) {
     var arr = friends.map(el => this.name + ' is friends with ' + el);
     console.log(arr);
-}
+};
 new Person('Dave').myFriends6(friends);
 
 // Destructuring - convenient way to extract data from a data structure
@@ -134,7 +136,7 @@ console.log(age);
 const obj = {
     firstName: 'John',
     lastName: 'Smith'
-}
+};
 
 const {
     firstName,
@@ -163,3 +165,23 @@ function calcAgeRetirement(year) {
 const [age2, retirement] = calcAgeRetirement(1990);
 console.log(age2);
 console.log(retirement);
+
+// Arrays
+
+const boxes = document.querySelectorAll('.box');
+// returns nodeList
+// transform to array
+// Es5 workaround is a hack
+var boxesArr5 = Array.prototype.slice.call(boxes);
+boxesArr5.forEach(function(cur) {
+    cur.style.backgroundColor = 'dodgerblue';
+});
+*/
+
+// ES6
+const boxes = document.querySelectorAll('.box');
+const boxesArr6 = Array.from(boxes); // hurrah!
+boxesArr6.forEach(cur => cur.style.backgroundColor = 'dodgerblue');
+
+// When looping around an array we use foreach or map
+// problem is, we cannot break from them or use the continue statement.
