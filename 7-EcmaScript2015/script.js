@@ -163,3 +163,33 @@ function calcAgeRetirement(year) {
 const [age2, retirement] = calcAgeRetirement(1990);
 console.log(age2);
 console.log(retirement);
+
+var boxesArr5 = Array.prototype.slice.call(boxes);
+
+// ES6 arrays
+const boxes = document.querySelectorAll('.box');
+const boxesArr6 = Array.from(boxes);
+boxesArr6.forEach(cur => cur.style.backgroundColor = 'dodgerblue');
+
+// Array loops
+// ES6 - for of loop
+for (const cur of boxesArr6) {
+    // can break and continue
+    // cannot in map or foreach
+    if (cur.className === 'box blue') {
+        continue;
+    }
+
+    cur.textContent = 'I changed to blue';
+}
+
+// 2 new array methods that allow us to find elements 
+const ages = [12, 17, 8, 21, 14, 11];
+// ES5
+var full = ages.map(function(cur) {
+    return cur >= 18;
+});
+
+console.log(full);
+
+console.log(full.indexOf(true));
