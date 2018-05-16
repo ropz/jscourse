@@ -193,3 +193,7 @@ var full = ages.map(function(cur) {
 console.log(full);
 
 console.log(full.indexOf(true));
+
+// Es6
+// findindex and find methods
+ages.findIndex(cur => cur >=18); // returns an index for the element is true.
