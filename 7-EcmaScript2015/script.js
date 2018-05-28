@@ -280,29 +280,42 @@ for (let [key, value] of question.entries()) {
 // ES6 classes add syntactic sugar
 
 // ES5
-var Person5 = function(name, yearOfBirth, job) {
+var Person5 = function (name, yearOfBirth, job) {
     this.name = name;
-    this.yearOfBirth=yearOfBirth;
-    this.job=job;
+    this.yearOfBirth = yearOfBirth;
+    this.job = job;
 }
 
-Person5.prototype.calculateAge = function() {
+Person5.prototype.calculateAge = function () {
     var age = new Date().getFullYear - this.yearOfBirth;
     console.log(age);
 }
 
-var john5 = new Person5('john',1990,'teacher');
+var john5 = new Person5('john', 1990, 'teacher');
+
+var Athlete5 = function (name, yearOfBirth, job, olympicGames, medals) {
+    // Need to control the this keyword.
+    // New creates a new object, calls empty function constructor and
+    // sets this to new empty object. 
+    // Need to set this to newly created athlete object.
+    Person5.call(this, name, yearOfBirth, job);
+    this.olympicGames = olympicGames;
+    this.medals = medals;
+}
+
+Athlete5.prototype = Object.create(Person5.prototype);
+var johnAthlete5 = new Athlete5('John', 1990, 'swimmer', 3, 10);
 
 // ES6
 class Person6 {
-    constructor(name, yearOfBirth,job) { // Every class declaration needs a constructor
-        this.name=name;
-        this.yearOfBirth=yearOfBirth;
-        this.job=job;
+    constructor(name, yearOfBirth, job) { // Every class declaration needs a constructor
+        this.name = name;
+        this.yearOfBirth = yearOfBirth;
+        this.job = job;
     }
 
     calculateAge() {
-        let age = new Date().getFullYear - this.yearOfBirth;
+        let age = new Date().getFullYear() - this.yearOfBirth;
         console.log(age);
     }
 
@@ -311,6 +324,22 @@ class Person6 {
     }
 }
 
-const john6 = new Person6('John',1990,'teacher');
+const john6 = new Person6('John', 1990, 'teacher');
 john6.calculateAge();
 Person6.greeting();
+
+class Athlete6 extends Person6 {
+    constructor(name, yearOfBirth, job, olympicGames, medals) {
+        super(name, yearOfBirth, job); // much easier than ES5! No this variable to worry about.
+        this.olympicGames = olympicGames;
+        this.medals = medals;
+    }
+    wonMedal() {
+        this.medals++;
+        console.log(this.medals);
+    }
+}
+
+const johnAthlete6 = new Athlete6('John', 1990, 'swimmer', 20, 5);
+johnAthlete6.wonMedal();
+johnAthlete6.calculateAge();
