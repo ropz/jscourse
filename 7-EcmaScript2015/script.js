@@ -1,3 +1,4 @@
+/*
 // Blocks and iffes
 
 // Variables declared using let and const use block scope
@@ -197,3 +198,119 @@ console.log(full.indexOf(true));
 // Es6
 // findindex and find methods
 ages.findIndex(cur => cur >=18); // returns an index for the element is true.
+
+
+// Rest parameters - look like spread operator but are completey different
+// Spread operator takes array transforms to single values
+// Rest parms take individual values and transforms
+
+// Es5
+function isFullAge5() {
+    // arguments keyword used
+    console.log(arguments); // looks like array but it's not! it's array-like, but not really array.
+    var argsArr = Array.prototype.slice.call(arguments); //  hack
+
+    argsArr.forEach(function(cur) {
+        console.log((2018-cur) > 18);
+    });
+}
+
+isFullAge5(1990, 1999, 1965);
+
+// ES6 Rest parameters
+function isFullAge6(...years) {
+    // as soon as we call function it tranforms args into array and pass into function
+    // whcih we can access as an array
+    console.log(years);
+    years.forEach(cur => console.log((2018-cur) > 18 ));
+}
+
+isFullAge6(1990, 1999, 1962);
+*/
+
+// Default parameters
+// ES5
+/*function SmithPerson(firstName, yearOfBierth, lastName, nationality) {
+    lastName === undefined ? lastName = 'Smith' : lastName=lastName;
+    nationality === undefined ? nationality = 'American': nationality=nationality;
+    this.firstName=firstName;
+    this.lastName=lastName;
+    this.yearOfBierth=yearOfBierth;
+    this.nationality= nationality;
+}
+
+var john = new SmithPerson('John', 1990);
+var emily = new SmithPersion('Emily', 1983, 'Diaz', 'Spanish');
+*/
+// ES6
+//function SmithPerson(firstName, yearOfBirth, lastName='Smith', nationality='American');
+//var john = new SmithPerson('John',1990);
+
+// Maps - a new data structure in ES6
+// use object as hash map
+// map keys to arbitrary values
+// until es6 we had to use objects for hash maps
+
+// in maps, we can use anything for the keys - any primitive. Even functions or objects!
+/*
+const question = new Map();
+question.set('question', 'What is the official name of the latest major JavaScript version?');
+question.set(1, 'ES5');
+question.set(2, 'ES6');
+question.set(3, 'ES2016');
+question.set(4, 'ES2015');
+question.set('correct', 4);
+question.set(true, 'Correct Answer');
+question.set(false, 'Wrong Answer');
+
+console.log(question.get('question'));
+console.log(question.size);
+
+if (question.has(4)) {
+    question.delete(4);
+}
+
+question.forEach((value,key)=>console.log(`Key: ${key}, value: ${value}`));
+
+for (let [key, value] of question.entries()) { 
+    // use destructuring to store key and value in 2 elements of array
+    console.log(`Key: ${key}, value: ${value}`);
+}*/
+
+// ES6 classes add syntactic sugar
+
+// ES5
+var Person5 = function(name, yearOfBirth, job) {
+    this.name = name;
+    this.yearOfBirth=yearOfBirth;
+    this.job=job;
+}
+
+Person5.prototype.calculateAge = function() {
+    var age = new Date().getFullYear - this.yearOfBirth;
+    console.log(age);
+}
+
+var john5 = new Person5('john',1990,'teacher');
+
+// ES6
+class Person6 {
+    constructor(name, yearOfBirth,job) { // Every class declaration needs a constructor
+        this.name=name;
+        this.yearOfBirth=yearOfBirth;
+        this.job=job;
+    }
+
+    calculateAge() {
+        let age = new Date().getFullYear - this.yearOfBirth;
+        console.log(age);
+    }
+
+    static greeting() {
+        console.log('Hello');
+    }
+}
+
+const john6 = new Person6('John',1990,'teacher');
+john6.calculateAge();
+Person6.greeting();
