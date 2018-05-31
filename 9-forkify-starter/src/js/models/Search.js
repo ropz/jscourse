@@ -1,0 +1,1 @@
+export default 'I am an exported string from Search.js';
