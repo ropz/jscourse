@@ -52,6 +52,8 @@
 
         // Promises
         // Firs argument is called executor function
+
+        
         const getIDs = new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve([532, 883, 432, 989]);
@@ -82,6 +84,8 @@
                 }, 1500, publisher)
             })
         }
+
+        /*
         // consume promise with then or catch
         getIDs
             .then((IDs) => {
@@ -100,6 +104,25 @@
             .catch(error => {
                 console.log(error);
             })
+            */
+
+            // Syntax to consume promises can still be complicated
+            // so in ES2018, Async/Await - designed to consume promises
+            // to produce promises, use the old way
+            
+            async function getRecipesAW() {
+                // asynchronous function
+                // returns promise
+                const IDs = await getIDs; // blocks until getIDs promise is settled
+                console.log(IDs);
+                const recipe = await getRecipe(IDs[2]);
+                console.log(recipe);
+                const related = await getRelated('Clive');
+                console.log(related);
+                return recipe;
+            }
+
+            getRecipesAW().then(result=>console.log(`the final: ${result}`));
     </script>
 </body>
 
