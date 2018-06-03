@@ -42,3 +42,7 @@ elements.searchResPages.addEventListener('click', e=> {
   searchView.renderResults(state.search.result, goToPage);
  }
 })
+
+const r = new Recipe(35107);
+r.getRecipe();
+console.log(r);
