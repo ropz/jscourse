@@ -12,7 +12,7 @@ export const clearResults = () => {
 };
 
 export const highlightSelected = id => {
-    const resultsArr = Array.from(document.querySelectorAll('.results__link'));
+    const resultsArr = Array.from(document.querySelectorAll('.results__link')); // not there when unloaded
     resultsArr.forEach(el => {
         el.classList.remove('results__link--active');
     });

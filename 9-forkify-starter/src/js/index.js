@@ -62,13 +62,17 @@ const controlRecipe = async () => {
     const id = window.location.hash.replace('#', '');
     if (id) {
         // prepare ui for changes
-        renderLoader(elements.recipe);
         recipeView.clearRecipe();
+        renderLoader(elements.recipe);
+
+        // Hightlight selected recipe
+        if (state.search) searchView.highlightSelected(id);
+
         // create new recipe object
         state.recipe = new Recipe(id);
 
         // TESTING
-        window.r = state.recipe;
+        // window.r = state.recipe;
         try {
             await state.recipe.getRecipe();
             state.recipe.parseIngredients();
@@ -86,3 +90,20 @@ const controlRecipe = async () => {
 }
 
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+
+// Handling recipe button clicks
+elements.recipe.addEventListener('click', e=>{
+    console.log('event');
+    console.log(e.target);
+    if (e.target.matches('.btn-decrease, .btn-decrease *')) {
+        if (state.recipe.servings > 1) {
+        state.recipe.updateServings('dec');
+        recipeView.updateServingsIngredients(state.recipe);
+        }
+    } // Asterisk means any child
+    if (e.target.matches('.btn-increase, .btn-increase *')) {
+        state.recipe.updateServings('inc');
+        recipeView.updateServingsIngredients(state.recipe);
+    } // Asterisk means any child
+    console.log(state.recipe);
+})
