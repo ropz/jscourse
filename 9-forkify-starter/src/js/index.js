@@ -4,11 +4,13 @@ import List from './models/List';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import * as listView from './views/listView';
+import * as likesView from './views/likesView';
 import {
     elements,
     renderLoader,
     clearLoader
 } from './views/base';
+import Likes from './models/Likes';
 
 const state = {
     // global state of app
@@ -86,7 +88,10 @@ const controlRecipe = async () => {
             state.recipe.calcServings();
             // render recipe
             clearLoader();
-            recipeView.renderRecipe(state.recipe);
+            recipeView.renderRecipe(
+                state.recipe,
+                state.likes.isLiked(id)
+            );
         } catch(err) {
             alert('Error processing recipe');
         }
@@ -123,6 +128,39 @@ elements.shopping.addEventListener('click', e=>{
         state.list.updateCount(id, val);
     }
 })
+// TESTING
+state.likes = new Likes();
+likesView.toggleLikeMenu(state.likes.getNumLikes());
+// LIKE CONTROLLER
+const controlLike = ()=>{
+    if (!state.likes) state.likes = new Likes();
+    const currentID = state.recipe.id;
+    if (!state.likes.isLiked(currentID)) {
+        // user has not yet liked current recipe
+        // add like to state
+        const newLike = state.likes.addLike(
+            currentID,
+            state.recipe.title,
+            state.recipe.author,
+            state.recipe.img
+        )
+        // toggle like button
+        likesView.toggleLikeBtn(true);
+        // add like to ui list
+        likesView.renderLike(newLike);
+        console.log(newLike);
+    } else {
+        // user has liked current recipe
+        //  remove like from state
+        state.likes.deleteLike(currentID);
+        // toggle like button
+        likesView.toggleLikeBtn(false);
+        // remove like from ui list
+        likesView.deleteLike(currentID);
+
+    }
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+}
 
 // Handling recipe button clicks
 elements.recipe.addEventListener('click', e => {
