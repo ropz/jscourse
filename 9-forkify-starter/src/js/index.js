@@ -19,8 +19,6 @@ const state = {
     // Shopping list object
     // Liked recipes
 };
-// TESTING
-window.state = state;
 
 const controlSearch = async () => {
     // 1) Get query from view
@@ -128,9 +126,7 @@ elements.shopping.addEventListener('click', e=>{
         state.list.updateCount(id, val);
     }
 })
-// TESTING
-state.likes = new Likes();
-likesView.toggleLikeMenu(state.likes.getNumLikes());
+
 // LIKE CONTROLLER
 const controlLike = ()=>{
     if (!state.likes) state.likes = new Likes();
@@ -161,6 +157,16 @@ const controlLike = ()=>{
     }
     likesView.toggleLikeMenu(state.likes.getNumLikes());
 }
+
+// restore liked recipis
+window.addEventListener('load', ()=>{
+    state.likes = new Likes();
+    state.likes.readStorage();
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+
+    // render likes
+    state.likes.likes.forEach(like=> likesView.renderLike(like));
+})
 
 // Handling recipe button clicks
 elements.recipe.addEventListener('click', e => {
